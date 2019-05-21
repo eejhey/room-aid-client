@@ -8,8 +8,8 @@ import './App.css';
 import './styles/colors.css';
 
 const client = new ApolloClient({
-    uri: 'https://room-aid-api.herokuapp.com/graphql',
-    // uri: 'http://localhost:4000/graphql',
+    // uri: 'https://room-aid-api.herokuapp.com/graphql',
+    uri: 'http://localhost:4000/graphql',
 });
 
 export class Setup extends React.PureComponent {

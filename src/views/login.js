@@ -103,7 +103,9 @@ export class LoginPage extends React.Component {
                 style={panelStyle} />
         )
 
-        const SuccessfulLoginPrompt = ({ name, data = null }) => {
+        const SuccessfulLoginPrompt = ({ name, token }) => {
+            localStorage.setItem('token', token);
+            console.log("Received Token", token);
             return (
                 <div id='successful-login-prompt'
                     className="flex-center-children"
@@ -141,7 +143,7 @@ export class LoginPage extends React.Component {
                                     return <DisplayedLoginPanel loading={false} />
                                 }
                                 this.startNavigating();
-                                return <SuccessfulLoginPrompt name={data.loginWith.firstName} />
+                                return <SuccessfulLoginPrompt name={data.loginWith.firstName} token={data.loginWith.jwt} />
                             }}
                         </Query>
                     )}
