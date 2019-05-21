@@ -1,0 +1,1 @@
+export { LoginPanel as default } from './login-panel';

@@ -1,0 +1,23 @@
+#login-panel-container {
+    background-color: #fff;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    transition: all 200ms ease-in;
+}
+
+#login-panel-container > .logo {
+    width: 200px;
+    height: 100px;
+    align-self: center;
+}
+
+#login-panel-container > .input-username,
+#login-panel-container > .input-password {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#login-panel-container > .ring-loader {
+    align-self: center;
+}

@@ -1,0 +1,7 @@
+.link {
+    color: rgb(68, 138, 255);
+}
+
+.link:active {
+    opacity: 0.8;
+}
