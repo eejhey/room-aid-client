@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PaidIcon from '@material-ui/icons/Check';
-import UnpaidIcon from '@material-ui/icons/Close';
 import { Transition } from 'react-spring/renderprops';
 import { withStyles } from '@material-ui/styles';
 import {
@@ -132,7 +131,7 @@ class RentDashboardCard extends React.PureComponent {
                                     {tenant.name}
                                 </Typography>
                                 <div className='flex-row centered'>
-                                    <Typography style={{color: tenant.hasPaid ? "#0f0" : "#aaa"}}>
+                                    <Typography style={{color: tenant.hasPaid ? "#0f0" : "#c1c1c1"}}>
                                         {tenant.hasPaid ? "PAID" : "Pending..."}
                                     </Typography>
                                     {tenant.hasPaid && <PaidIcon nativeColor={"#0f0"} />}
