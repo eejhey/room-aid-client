@@ -122,6 +122,7 @@ export default class Balances extends React.Component {
                     style={{
                         width: '90%',
                         marginBottom: '1rem',
+                        maxWidth: '400px',
                     }}>
                     <CardContent>
                         <Typography variant='subtitle2'>
@@ -129,7 +130,7 @@ export default class Balances extends React.Component {
                         </Typography>
                         <BarChart id={billInfo.title}
                             dataset={dataset} />
-                    </CardContent>
+                </CardContent>
                 </Card>
             )
         })
