@@ -21,9 +21,20 @@ body {
     height: 100%;
 }
 
+/* TODO Remove redundancies */
 .flex-column {
     display: flex;
     flex-flow: column nowrap;
+}
+
+.vertical {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.horizontal {
+    display: flex;
+    flex-flow: row nowrap;
 }
 
 .flex-row {

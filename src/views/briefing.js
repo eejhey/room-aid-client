@@ -140,7 +140,7 @@ export class Briefing extends React.PureComponent {
             {
                 category: "Utilities",
                 balance: 200,
-                dueBy: "06/30/2019",
+                dueBy: "07/01/2019",
             },
             // {
             //     category: "Payment1",

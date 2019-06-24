@@ -109,7 +109,7 @@ class RentDashboardCard extends React.PureComponent {
                                 {expanded =>
                                     expanded
                                         ? props => <div style={props}>{"Hide who's paid"}</div>
-                                        : props => <div style={props}>{"Show who's paid"}</div>
+                                        : props => <div style={props}>{"See who's paid"}</div>
                                 }
                             </Transition>
                         </Typography>
@@ -132,12 +132,10 @@ class RentDashboardCard extends React.PureComponent {
                                     {tenant.name}
                                 </Typography>
                                 <div className='flex-row centered'>
-                                    <Typography style={{color: tenant.hasPaid ? "#0f0" : "#f00"}}>
-                                        {tenant.hasPaid ? "PAID" : "NOT PAID"}
+                                    <Typography style={{color: tenant.hasPaid ? "#0f0" : "#aaa"}}>
+                                        {tenant.hasPaid ? "PAID" : "Pending..."}
                                     </Typography>
-                                    {tenant.hasPaid
-                                        ? <PaidIcon nativeColor={"#0f0"} />
-                                        : <UnpaidIcon nativeColor={"#f00"} />}
+                                    {tenant.hasPaid && <PaidIcon nativeColor={"#0f0"} />}
                                 </div>
                             </div>
                         ))}
