@@ -12,6 +12,8 @@ import {
     RootRef,
 } from '@material-ui/core';
 import RentDashboardCard from '../containers/RentDashboardCard';
+import { Query } from 'react-apollo';
+import PrimaryHouseQuery from '../graphql/queries/get-primary-household';
 
 const styles = theme => ({
     root: {
@@ -24,9 +26,9 @@ const styles = theme => ({
         alignItems: 'center',
         position: 'relative',
         overflow: 'auto',
-        '@media (min-width: 400px)': {
-            alignItems: 'flex-start',
-        },
+        // '@media (min-width: 400px)': {
+        //     alignItems: 'flex-start',
+        // },
     },
     cardViewer: {
         position: 'absolute',
@@ -36,23 +38,24 @@ const styles = theme => ({
         display: 'flex',
         flexFlow: 'column nowrap',
         alignItems: 'inherit',
-        '@media (max-width: 399px)': {
-            width: '100%',
-        },
-        '@media (min-width: 400px)': {
-            flexFlow: 'row nowrap',
-        }
+        width: '100%',
+        // '@media (max-width: 399px)': {
+        // },
+        // '@media (min-width: 400px)': {
+        //     flexFlow: 'row nowrap',
+        // }
     },
     card: {
         flexGrow: '0',
         opacity: '1',
-        '@media (max-width: 399px)': {
-            marginBottom: theme.spacing.unit,
-            width: '80%',
-        },
-        '@media (min-width: 400px)': {
-            marginRight: theme.spacing.unit,
-        },
+        marginBottom: theme.spacing.unit,
+        width: '80%',
+        maxWidth: '300px',
+        // '@media (max-width: 399px)': {
+        // },
+        // '@media (min-width: 400px)': {
+        //     marginRight: theme.spacing.unit,
+        // },
     },
     cardTapped: {
         width: '100%',
@@ -94,7 +97,6 @@ export class Briefing extends React.PureComponent {
             event.stopPropagation();
             return;
         }
-        console.log(event.target, cardDetails);
 
         if (cardDetails === null) {
             this.setState({ selectedCard: null });
@@ -123,8 +125,11 @@ export class Briefing extends React.PureComponent {
         }
     }
 
+    componentDidMount() {
+
+    }
+
     render() {
-        console.log("Render");
         const { classes } = this.props;
         const {
             growCard,
@@ -134,14 +139,14 @@ export class Briefing extends React.PureComponent {
         const billCollections = [
             {
                 category: "Utilities",
-                balance: 150,
-                dueBy: "04/30/2019",
+                balance: 200,
+                dueBy: "06/30/2019",
             },
-            {
-                category: "Payment1",
-                balance: 150,
-                dueBy: "04/30/2019",
-            },
+            // {
+            //     category: "Payment1",
+            //     balance: 150,
+            //     dueBy: "04/30/2019",
+            // },
         ]
 
         const utilitiesBillCardContents = (bill) => (
@@ -150,7 +155,7 @@ export class Briefing extends React.PureComponent {
                     {bill.category.toUpperCase()}
                 </Typography>
                 <Typography variant='h5'>
-                    {Number(bill.balance).toFixed(2)}
+                    {`$${Number(bill.balance).toFixed(2)}`}
                 </Typography>
                 <Typography variant='caption'>
                     Due by {bill.dueBy}
@@ -225,10 +230,21 @@ export class Briefing extends React.PureComponent {
                     )}
                 </Attacher>
                 <div className={classes.topCards}>
-                    <Grow>
-                        <RentDashboardCard />
-                    </Grow>
-                        {billCards}
+                    <Query query={PrimaryHouseQuery}>
+                        {({ loading, error, data }) => {
+                            if (loading) return null;
+                            if (error) return null;
+                            const { primaryHousehold } = data;
+                            return (
+                                <Grow>
+                                    <RentDashboardCard
+                                        rentBalance={primaryHousehold.rent}
+                                        dueDate={primaryHousehold.rentDueDate} />
+                                </Grow>
+                            )
+                        }}
+                    </Query>
+                    {billCards}
                 </div>
             </div>
         )

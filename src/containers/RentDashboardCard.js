@@ -4,6 +4,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PaidIcon from '@material-ui/icons/Check';
 import UnpaidIcon from '@material-ui/icons/Close';
 import { Transition } from 'react-spring/renderprops';
+import { withStyles } from '@material-ui/styles';
 import {
     Card,
     CardContent,
@@ -11,19 +12,20 @@ import {
     CardActionArea,
     IconButton,
     Collapse,
-    withStyles,
 } from '@material-ui/core';
 
 const styles = theme => ({
     card: {
         flexGrow: '0',
-        '@media (max-width: 399px)': {
-            marginBottom: theme.spacing.unit,
-            width: '80%',
-        },
-        '@media (min-width: 400px)': {
-            marginRight: theme.spacing.unit,
-        },
+        // minWidth: '270px',
+        marginBottom: theme.spacing.unit,
+        width: '80%',
+        maxWidth: '300px',
+        // '@media (max-width: 399px)': {
+        // },
+        // '@media (min-width: 400px)': {
+        //     marginRight: theme.spacing.unit,
+        // },
     },
     rentCardActionText: {
         paddingLeft: '5%',
@@ -56,17 +58,19 @@ class RentDashboardCard extends React.PureComponent {
     }
 
     render() {
-        const { classes } = this.props;
+        const {
+            classes,
+            rentBalance,
+            dueDate,
+        } = this.props;
         const { expanded } = this.state;
 
         const tenants = [
-            { name: 'Eddie', hasPaid: true },
-            { name: 'Eddie', hasPaid: true },
-            { name: 'Eddie', hasPaid: true },
-            { name: 'Eddie', hasPaid: false },
-            { name: 'Eddie', hasPaid: false },
-            { name: 'Eddie', hasPaid: false },
-            { name: 'Eddie', hasPaid: false },
+            { name: 'Master', hasPaid: true },
+            { name: 'Ceazar', hasPaid: true },
+            { name: 'Josh', hasPaid: true },
+            { name: 'Lesley', hasPaid: true },
+            { name: 'Napolean', hasPaid: false },
         ]
 
         return (
@@ -76,18 +80,18 @@ class RentDashboardCard extends React.PureComponent {
                         RENT
                     </Typography>
                     <Typography variant='h5'>
-                        $3600.00
+                        ${rentBalance}
                                 </Typography>
                     <Typography variant='caption'>
-                        Due By 05/31/2019
-                                </Typography>
+                        Due By {dueDate}
+                    </Typography>
                 </CardContent>
                 <CardActionArea
                     onClick={() => this.setState({ expanded: !expanded })}>
-                    <div className='space-between'>
-                            <Typography className={classes.rentCardActionText}
-                                variant='button'
-                            >
+                    <div className='flex-row space-between'>
+                        <Typography className={classes.rentCardActionText}
+                            variant='button'
+                        >
                             <Transition
                                 items={expanded}
                                 from={{ position: 'absolute', opacity: 0 }}
@@ -98,8 +102,8 @@ class RentDashboardCard extends React.PureComponent {
                                         ? props => <div style={props}>{"Hide who's paid"}</div>
                                         : props => <div style={props}>{"Show who's paid"}</div>
                                 }
-                                </Transition>
-                            </Typography>
+                            </Transition>
+                        </Typography>
                         <IconButton component='div'>
                             <ExpandMoreIcon
                                 className={classNames(
@@ -118,9 +122,9 @@ class RentDashboardCard extends React.PureComponent {
                                 <Typography>
                                     {tenant.name}
                                 </Typography>
-                                <div className='flex-row flex-center-children'>
+                                <div className='flex-row centered'>
                                     <Typography style={{color: tenant.hasPaid ? "#0f0" : "#f00"}}>
-                                        {tenant.hasPaid ? "PAID" : "OWES"}
+                                        {tenant.hasPaid ? "PAID" : "NOT PAID"}
                                     </Typography>
                                     {tenant.hasPaid
                                         ? <PaidIcon nativeColor={"#0f0"} />
@@ -135,5 +139,4 @@ class RentDashboardCard extends React.PureComponent {
     }
 }
 
-// @ts-ignore
 export default withStyles(styles)(RentDashboardCard)

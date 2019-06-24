@@ -7,9 +7,18 @@ import { RoutePath } from './Routes';
 import './App.css';
 import './styles/colors.css';
 
+const authHeaders = () => {
+    const token = localStorage.getItem('token');
+
+    return {
+        'Authorization': token ? token : '',
+    }
+}
+
 const client = new ApolloClient({
-    // uri: 'https://room-aid-api.herokuapp.com/graphql',
-    uri: 'http://localhost:4000/graphql',
+    uri: 'https://room-aid-api.herokuapp.com/graphql',
+    // uri: 'http://localhost:4000/graphql',
+    headers: authHeaders(),
 });
 
 export class Setup extends React.PureComponent {

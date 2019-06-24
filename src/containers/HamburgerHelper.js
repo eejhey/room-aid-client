@@ -17,15 +17,16 @@ export const options = [
 export const NavigationItems = (props) => {
 
     const onClick = (index) => {
-        props.onNavigationOptionSelect &&
-            props.onNavigationOptionSelect(index);
+        props.onSelectItem &&
+            props.onSelectItem(index);
     }
-
+    
     const navigationItems = options.map((el, i) => (
         <ListItem key={i.toString()}
             button
+            selected={i === props.selectedIndex}
+            // disabled={i === props.selectedIndex}
             onClick={() => onClick(i)}
-            disabled={i === props.selectedIndex}
         >
             <ListItemIcon>{el.icon}</ListItemIcon>
             <ListItemText primary={el.title} />
@@ -36,5 +37,6 @@ export const NavigationItems = (props) => {
 }
 
 NavigationItems.propTypes = {
-    onNavigationOptionSelect: PropTypes.func,   // (index)
+    selectedIndex: PropTypes.number,
+    onSelectItem: PropTypes.func,   // (index)
 }

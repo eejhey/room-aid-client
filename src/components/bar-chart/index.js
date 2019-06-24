@@ -6,7 +6,7 @@ export default class BarChart extends React.Component {
 
     componentDidMount() {
         const {
-            title,
+            // title,
             dataset,
             id,
         } = this.props;
@@ -19,17 +19,16 @@ export default class BarChart extends React.Component {
         keys.forEach((d, i) => {
             labels.push(d);
             values.push(dataset[d]);
-            barColors.push((i === keys.length - 1) ? '#00ff00' : '#ffff00');
+            barColors.push((i === keys.length - 1) ? '#59F8E8' : '#C1CFDA');
         })
 
         let ctx = document.getElementById(id);
         new Chart(ctx, {
             type: 'horizontalBar',
             data: {
-                // labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
                 labels: labels,
                 datasets: [{
-                    label: title,
+                    // label: title,
                     data: values,
                     backgroundColor: barColors,
                     borderColor: barColors,
@@ -37,6 +36,9 @@ export default class BarChart extends React.Component {
                 }]
             },
             options: {
+                legend: {
+                    display: false,
+                },
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -59,6 +61,6 @@ export default class BarChart extends React.Component {
 
 BarChart.propTypes = {
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    title: PropTypes.string,
+    // title: PropTypes.string,
     dataset: PropTypes.object,
 }

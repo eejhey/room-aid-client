@@ -105,10 +105,10 @@ export class LoginPage extends React.Component {
 
         const SuccessfulLoginPrompt = ({ name, token }) => {
             localStorage.setItem('token', token);
-            console.log("Received Token", token);
+            // console.log("Received Token", token);
             return (
                 <div id='successful-login-prompt'
-                    className="flex-center-children"
+                    className="centered"
                     style={{
                         ...panelStyle,
                         padding: "3rem",

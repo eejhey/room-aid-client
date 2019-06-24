@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { withStyles, createMuiTheme, MuiThemeProvider, Fade } from '@material-ui/core';
+import { withStyles, createMuiTheme, Fade } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Drawer from '@material-ui/core/Drawer';
@@ -79,8 +80,9 @@ const styles = theme => ({
     },
     appBarSpacer: theme.mixins.toolbar,
     visiblePayload: {
-        flex: '1 1 0',
-        // height: '0',
+        flex: '1 1 auto',
+        height: '0',
+        overflow: 'auto',
     },
     content: {
         flexGrow: 1,
@@ -101,7 +103,7 @@ const theme = createMuiTheme({
 
 export class Dashboard extends React.Component {
     state = {
-        open: false,
+        openDrawer: false,
         page: 0,
         hideToolbar: false,
     }
@@ -126,115 +128,120 @@ export class Dashboard extends React.Component {
     }
 
     handleDrawerOpen = () => {
-        this.setState({ open: true });
+        this.setState({ openDrawer: true });
     };
 
     handleDrawerClose = () => {
-        this.setState({ open: false });
+        this.setState({ openDrawer: false });
     };
+
+    onClickHamburgerItem = (selectedIndex) => {
+        this.setState({ page: selectedIndex, openDrawer: false });
+    }
 
     render() {
         const { classes = {} } = this.props;
 
         const {
-            page,
+            page: pageIndex,
             hideToolbar,
         } = this.state;
 
         const drawer = (
             <>
-                <NavigationItems />
+                <NavigationItems
+                    selectedIndex={pageIndex}
+                    onSelectItem={this.onClickHamburgerItem} />
             </>
         );
 
         return (
-            <MuiThemeProvider theme={theme}>
+            <ThemeProvider theme={theme}>
                 <div className={classes.root}>
-                
-                <Fade in={!hideToolbar}>
-                    <AppBar
-                        position="absolute"
-                        className={classNames(classes.appBar)}
-                        // className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
-                    >
-                        <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
-                            <IconButton
-                                color="inherit"
-                                aria-label="Open drawer"
-                                onClick={this.handleDrawerOpen}
-                                className={classNames(
-                                    classes.menuButton,
-                                    this.state.open && classes.menuButtonHidden,
-                                )}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Typography
-                                component="h1"
-                                variant="h6"
-                                color="inherit"
-                                noWrap
-                                className={classes.title}
-                            >
-                                {options[page].title}
-                            </Typography>
-                            {/* <IconButton color="inherit">
-                                <Badge badgeContent={4} color="secondary">
-                                    <NotificationsIcon />
-                                </Badge>
-                            </IconButton> */}
-                        </Toolbar>
-                    </AppBar>
-                </Fade>
-                <Hidden smUp implementation="css">
-                    <Drawer
-                        container={this.props.container}
-                        variant="temporary"
-                        anchor={'left'}
+                    <Fade in={!hideToolbar}>
+                        <AppBar
+                            position="absolute"
+                            className={classNames(classes.appBar)}
+                            // className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
+                        >
+                            <Toolbar disableGutters={!this.state.openDrawer} className={classes.toolbar}>
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="Open drawer"
+                                    onClick={this.handleDrawerOpen}
+                                    className={classNames(
+                                        classes.menuButton,
+                                        this.state.openDrawer && classes.menuButtonHidden,
+                                    )}
+                                >
+                                    <MenuIcon />
+                                </IconButton>
+                                <Typography
+                                    component="h1"
+                                    variant="h6"
+                                    color="inherit"
+                                    noWrap
+                                    className={classes.title}
+                                >
+                                    {options[pageIndex].title}
+                                </Typography>
+                                {/* <IconButton color="inherit">
+                                    <Badge badgeContent={4} color="secondary">
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton> */}
+                            </Toolbar>
+                        </AppBar>
+                    </Fade>
+                    <Hidden smUp implementation="css">
+                        <Drawer
+                            container={this.props.container}
+                            variant="temporary"
+                            anchor={'left'}
+                            open={this.state.openDrawer}
+                            onClose={this.handleDrawerOpen}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        >
+                            <div className={classes.toolbarIcon}>
+                                <IconButton onClick={this.handleDrawerClose}>
+                                    <ChevronLeftIcon />
+                                </IconButton>
+                            </div>
+                            {drawer}
+                        </Drawer>
+                    </Hidden>
+                    {/* <Drawer
+                        variant="permanent"
+                        classes={{
+                            paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+                        }}
                         open={this.state.open}
-                        onClose={this.handleDrawerOpen}
-                    // classes={{
-                    //     paper: classes.drawerPaper,
-                    // }}
                     >
                         <div className={classes.toolbarIcon}>
                             <IconButton onClick={this.handleDrawerClose}>
                                 <ChevronLeftIcon />
                             </IconButton>
                         </div>
-                        {drawer}
-                    </Drawer>
-                </Hidden>
-                {/* <Drawer
-                    variant="permanent"
-                    classes={{
-                        paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-                    }}
-                    open={this.state.open}
-                >
-                    <div className={classes.toolbarIcon}>
-                        <IconButton onClick={this.handleDrawerClose}>
-                            <ChevronLeftIcon />
-                        </IconButton>
-                    </div>
-                    <Divider />
-                    <List>
-                        <NavigationItems 
-                            onNavigationOptionSelect={this.onNavigationOptionSelect} 
-                            selectedIndex={page} 
-                        />
-                    </List>
-                    <Divider />
-                    <List>{secondaryListItems}</List>
-                </Drawer> */}
-                <main className={classes.content}>
-                    <div id="app-bar-spacer" className={classes.appBarSpacer} />
-                    <div className={classes.visiblePayload}>
-                        {this.pages[page]}
-                    </div>
-                </main>
-            </div>
-            </MuiThemeProvider>
+                        <Divider />
+                        <List>
+                            <NavigationItems 
+                                onNavigationOptionSelect={this.onNavigationOptionSelect} 
+                                selectedIndex={page} 
+                            />
+                        </List>
+                        <Divider />
+                        <List>{secondaryListItems}</List>
+                    </Drawer> */}
+                    <main className={classes.content}>
+                        <div id="app-bar-spacer" className={classes.appBarSpacer} />
+                        <div className={classes.visiblePayload}>
+                            {this.pages[pageIndex]}
+                        </div>
+                    </main>
+                </div>
+            </ThemeProvider>
         )
     }
 }

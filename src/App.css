@@ -13,6 +13,14 @@ body {
     height: 100%;
 }
 
+.match-width {
+    width: 100%;
+}
+
+.match-height {
+    height: 100%;
+}
+
 .flex-column {
     display: flex;
     flex-flow: column nowrap;
@@ -28,9 +36,17 @@ body {
     justify-content: space-between;
 }
 
-.flex-center-children {
+.centered {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
     align-items: center;
 }
 
