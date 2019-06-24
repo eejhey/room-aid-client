@@ -6,6 +6,7 @@ export default gql`
             id
             rent
             rentDueDate
+            rentDueDay
         }
     }
 `

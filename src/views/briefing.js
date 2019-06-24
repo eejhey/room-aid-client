@@ -239,7 +239,7 @@ export class Briefing extends React.PureComponent {
                                 <Grow>
                                     <RentDashboardCard
                                         rentBalance={primaryHousehold.rent}
-                                        dueDate={primaryHousehold.rentDueDate} />
+                                        dueDay={primaryHousehold.rentDueDay} />
                                 </Grow>
                             )
                         }}

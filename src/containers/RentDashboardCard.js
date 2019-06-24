@@ -61,9 +61,18 @@ class RentDashboardCard extends React.PureComponent {
         const {
             classes,
             rentBalance,
-            dueDate,
+            dueDate: dueDateProp,
+            dueDay: dueDayProp,
         } = this.props;
         const { expanded } = this.state;
+
+        let dueDate = dueDateProp;
+
+        if (!dueDate && !!dueDayProp) {
+            const today = new Date();
+            const due = new Date(today.getFullYear(), today.getMonth() + 2, dueDayProp);
+            dueDate = `${due.getMonth()}/${due.getDate()}/${due.getFullYear()}`
+        }
 
         const tenants = [
             { name: 'Master', hasPaid: true },
@@ -81,7 +90,7 @@ class RentDashboardCard extends React.PureComponent {
                     </Typography>
                     <Typography variant='h5'>
                         ${rentBalance}
-                                </Typography>
+                    </Typography>
                     <Typography variant='caption'>
                         Due By {dueDate}
                     </Typography>
